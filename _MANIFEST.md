@@ -1,7 +1,7 @@
 # FranchiseOS -- Project Manifest
 
 > Auto-generated manifest reflecting the current state of the monorepo.
-> Last updated: 2026-03-08 (agent souls + memory subsystems)
+> Last updated: 2026-03-16 (handoff cleanup + restructure)
 
 ---
 
@@ -29,14 +29,12 @@
 
 ```
 .gitignore                          — Git ignore rules
-local.env                           — Local environment variables (not committed to remote)
 package.json                        — Root package (commonjs, @supabase/supabase-js dep)
 package-lock.json                   — Lockfile for root deps
 SETUP.md                            — Project setup guide
 agent_swarm.docx                    — Original agent swarm design document
-AUDIT_REPORT.md                     — Codebase audit report against agent_swarm.docx
-ITEMS_NOT_UNDERSTOOD.md             — Ambiguous items requiring Jeff's clarification
-OVERNIGHT_BUILD_REPORT.md           — Build completion report with file manifest
+HANDOFF_CHECKLIST.docx              — New owner handoff checklist
+OWNERS_MANUAL.docx                  — Maintenance and operations manual for new owner
 ```
 
 ### architecture/
@@ -46,6 +44,16 @@ FRANCHISEOS_7_LAYER_AI_ARCHITECTURE.md  — Seven-layer AI architecture overview
 LAYER_MAPPING.md                        — Maps features to architecture layers
 BUILD_PHASES_BY_LAYER.md                — Build phases ordered by layer priority
 supabase-schema.sql                     — Reference SQL schema for Supabase tables
+```
+
+### docs/build-reports/ (Archived)
+
+```
+AUDIT_REPORT.md                     — Codebase audit report against agent_swarm.docx
+DALLAS_SCENARIO_REPORT.md           — Dallas demo scenario execution report
+OVERNIGHT_BUILD_REPORT.md           — Build completion report with file manifest
+ITEMS_NOT_UNDERSTOOD.md             — Ambiguous items requiring Jeff's clarification
+audit-file-list.txt                 — Raw file listing from audit
 ```
 
 ### brand-engine/
