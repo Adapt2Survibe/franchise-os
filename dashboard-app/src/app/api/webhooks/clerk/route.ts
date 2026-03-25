@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { Webhook } from "svix";
 
 function getSupabase() {
   return createClient(
@@ -8,27 +9,42 @@ function getSupabase() {
   );
 }
 
-function verifyWebhookSignature(req: NextRequest): boolean {
+async function verifyWebhookPayload(
+  req: NextRequest
+): Promise<Record<string, unknown> | null> {
   const svixId = req.headers.get("svix-id");
   const svixTimestamp = req.headers.get("svix-timestamp");
   const svixSignature = req.headers.get("svix-signature");
 
   if (!svixId || !svixTimestamp || !svixSignature) {
-    return false;
+    return null;
   }
 
-  // Verify the webhook secret is configured
-  if (!process.env.CLERK_WEBHOOK_SECRET) {
+  const secret = process.env.CLERK_WEBHOOK_SECRET;
+  if (!secret) {
     console.error("CLERK_WEBHOOK_SECRET is not set");
-    return false;
+    return null;
   }
 
-  return true;
+  try {
+    const body = await req.text();
+    const wh = new Webhook(secret);
+    const payload = wh.verify(body, {
+      "svix-id": svixId,
+      "svix-timestamp": svixTimestamp,
+      "svix-signature": svixSignature,
+    });
+    return payload as Record<string, unknown>;
+  } catch (err) {
+    console.error("Webhook verification failed:", err);
+    return null;
+  }
 }
 
 export async function POST(req: NextRequest) {
-  // Verify webhook signature headers
-  if (!verifyWebhookSignature(req)) {
+  // Verify webhook signature and extract payload
+  const event = await verifyWebhookPayload(req);
+  if (!event) {
     return NextResponse.json(
       { error: "Invalid webhook signature" },
       { status: 401 }
@@ -37,12 +53,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const supabase = getSupabase();
-    const event = await req.json();
-    const { type, data } = event;
+    const { type, data } = event as { type: string; data: Record<string, unknown> };
 
     switch (type) {
       case "organization.created": {
-        const { id: clerkOrgId, name, slug } = data;
+        const { id: clerkOrgId, name, slug } = data as { id: string; name?: string; slug?: string };
 
         const { error } = await supabase.from("brands").insert({
           clerk_org_id: clerkOrgId,
@@ -65,7 +80,7 @@ export async function POST(req: NextRequest) {
       }
 
       case "organization.updated": {
-        const { id: clerkOrgId, name, public_metadata } = data;
+        const { id: clerkOrgId, name, public_metadata } = data as { id: string; name?: string; public_metadata?: Record<string, unknown> };
 
         const updatePayload: Record<string, unknown> = {
           updated_at: new Date().toISOString(),
@@ -92,7 +107,11 @@ export async function POST(req: NextRequest) {
       }
 
       case "organizationMembership.created": {
-        const { organization, public_user_data, role } = data;
+        const { organization, public_user_data, role } = data as {
+          organization?: { id: string };
+          public_user_data?: { identifier?: string };
+          role?: string;
+        };
 
         console.log(
           `New membership: user ${public_user_data?.identifier ?? "unknown"} joined org ${organization?.id ?? "unknown"} as ${role}`

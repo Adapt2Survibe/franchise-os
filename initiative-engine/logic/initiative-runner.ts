@@ -12,19 +12,16 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 // Supabase client
 // ---------------------------------------------------------------------------
 
-const supabaseUrl =
-  process.env.SUPABASE_URL ?? 'https://eggucsttihoxhxaaeiph.supabase.co';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+const supabaseUrl = process.env.SUPABASE_URL;
+if (!supabaseUrl) throw new Error('Missing SUPABASE_URL environment variable');
+
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!supabaseKey) throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
 
 let _supabase: SupabaseClient | null = null;
 
 function getSupabaseClient(): SupabaseClient {
   if (!_supabase) {
-    if (!supabaseKey) {
-      throw new Error(
-        'SUPABASE_SERVICE_ROLE_KEY is required for the initiative runner.'
-      );
-    }
     _supabase = createClient(supabaseUrl, supabaseKey);
   }
   return _supabase;

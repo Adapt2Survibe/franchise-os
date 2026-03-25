@@ -18,10 +18,8 @@ import { loadAgentPrompt } from '../agent-loader';
 const BRAND_ID = process.env.BRAND_ID ?? '6b66fd67-aa7e-46ab-9262-60ccfd3339c8';
 const BRAND_SLUG = process.env.BRAND_SLUG ?? 'skill-samurai';
 
-const SUPABASE_URL =
-  process.env.SUPABASE_URL ??
-  process.env.NEXT_PUBLIC_SUPABASE_URL ??
-  'https://eggucsttihoxhxaaeiph.supabase.co';
+const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
+if (!SUPABASE_URL) throw new Error('Missing SUPABASE_URL environment variable');
 
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;

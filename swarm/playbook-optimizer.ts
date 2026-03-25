@@ -26,24 +26,17 @@ export interface Playbook {
 // Supabase client singleton
 // ---------------------------------------------------------------------------
 
-const SUPABASE_URL =
-  process.env.SUPABASE_URL ??
-  process.env.NEXT_PUBLIC_SUPABASE_URL ??
-  'https://eggucsttihoxhxaaeiph.supabase.co';
+const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
+if (!SUPABASE_URL) throw new Error('Missing SUPABASE_URL environment variable');
 
 const SUPABASE_SERVICE_ROLE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_KEY;
+if (!SUPABASE_SERVICE_ROLE_KEY) throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
 
 let _client: SupabaseClient | null = null;
 
 function getClient(): SupabaseClient {
   if (_client) return _client;
-
-  if (!SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error(
-      'Missing Supabase service role key. Set SUPABASE_SERVICE_ROLE_KEY in your environment.'
-    );
-  }
 
   _client = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     auth: { autoRefreshToken: false, persistSession: false },

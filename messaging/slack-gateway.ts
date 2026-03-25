@@ -32,19 +32,16 @@ interface SlackBlock {
 // Supabase client (singleton)
 // ---------------------------------------------------------------------------
 
-const SUPABASE_URL =
-  process.env.SUPABASE_URL ?? "https://eggucsttihoxhxaaeiph.supabase.co";
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+const SUPABASE_URL = process.env.SUPABASE_URL;
+if (!SUPABASE_URL) throw new Error('Missing SUPABASE_URL environment variable');
+
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!SUPABASE_SERVICE_ROLE_KEY) throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
 
 let _supabase: SupabaseClient | null = null;
 
 function getSupabase(): SupabaseClient {
   if (!_supabase) {
-    if (!SUPABASE_SERVICE_ROLE_KEY) {
-      throw new Error(
-        "SUPABASE_SERVICE_ROLE_KEY is not set. Cannot initialise Supabase client."
-      );
-    }
     _supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
   }
   return _supabase;
