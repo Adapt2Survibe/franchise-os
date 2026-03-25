@@ -1,24 +1,30 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+// AUTH DISABLED — re-enable Clerk middleware when ready for production
+// import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+//
+// const isPublicRoute = createRouteMatcher([
+//   '/',
+//   '/sign-in(.*)',
+//   '/sign-up(.*)',
+//   '/api/webhooks(.*)',
+//   '/api/test(.*)',
+// ]);
+//
+// export default clerkMiddleware(async (auth, request) => {
+//   if (!isPublicRoute(request)) {
+//     await auth.protect();
+//   }
+// });
 
-const isPublicRoute = createRouteMatcher([
-  '/',
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/webhooks(.*)',
-  '/api/test(.*)',
-]);
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
-});
+export default function middleware(request: NextRequest) {
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
-    // Skip static files and Next.js internals
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
     '/(api|trpc)(.*)',
   ],
 };
