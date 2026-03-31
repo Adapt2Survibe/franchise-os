@@ -12,6 +12,7 @@ export default function SubmitLeadPage() {
     candidateName: '',
     phone: '',
     email: '',
+    streetAddress: '',
     city: '',
     state: '',
     liquidCapital: '',
@@ -85,6 +86,11 @@ export default function SubmitLeadPage() {
               <label htmlFor="candidateEmail" className={labelClass}>Email Address</label>
               <input id="candidateEmail" type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)} placeholder="candidate@email.com" className={inputClass} />
             </div>
+          </div>
+
+          <div>
+            <label htmlFor="streetAddress" className={labelClass}>Street Address</label>
+            <input id="streetAddress" type="text" value={form.streetAddress} onChange={(e) => updateField('streetAddress', e.target.value)} placeholder="123 Main St" className={inputClass} />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
