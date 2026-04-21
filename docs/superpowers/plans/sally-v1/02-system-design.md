@@ -1,6 +1,16 @@
-# Phase 3: System Design — Sally v1
+# ⚠️ SUPERSEDED — DO NOT USE AS ARCHITECTURE REFERENCE
 
-**Decision locked 2026-04-07:** Option B (Pilot Plus)
+**This document describes the custom Node.js/TypeScript backend architecture that was REJECTED after adversarial review (7 P0 launch blockers). The architecture pivoted to Claude Managed Agents on 2026-04-20.**
+
+**For current architecture direction, see:** `SESSION_HISTORY.md` section 7 ("The Managed Agents Pivot")
+
+**This file is preserved for historical reference only.** The next session will rewrite it with the Managed Agents architecture.
+
+---
+
+# Phase 3: System Design — Sally v1 (OUTDATED)
+
+**Decision locked 2026-04-07:** Option B (Pilot Plus) — **SUPERSEDED by Managed Agents pivot (2026-04-20)**
 **Ship target:** 2-3 weeks
 **Pilot:** Jay @ Tiger Adjusters
 

@@ -68,8 +68,8 @@ This is the single source of truth for every issue, decision, gotcha, and TODO s
 
 | # | Severity | Title | Description | Action Required | Status |
 |---|---|---|---|---|---|
-| J1 | 🚨 | NDA drop-off is #1 revenue killer | Leads say "I'll read the NDA" then ghost — biggest stage drop-off | Sally v1 MUST include NDA stall recovery sequence | open |
-| J2 | 🚨 | Intro call booking drop-off is #2 | Leads arrive in Monday, get the intro email + booking link, never click | Sally v1 MUST include intro booking recovery sequence | open |
+| J1 | 🚨 | NDA drop-off is #1 revenue killer | Leads say "I'll read the NDA" then ghost — biggest stage drop-off | Deferred to v1.1 per Apr 20 scope reduction to Broker Shield only | deferred |
+| J2 | 🚨 | Intro call booking drop-off is #2 | Leads arrive in Monday, get the intro email + booking link, never click | Deferred to v1.1 per Apr 20 scope reduction to Broker Shield only | deferred |
 | J3 | 🚨 | Brokers consume Jay's week | "Kids in the fucking car asking 'are we there yet'" — broker update requests are constant pain | Sally v1 MUST include automated broker status updates | open |
 | J4 | ⚠️ | Validation Call goes at end of pipeline | Pipeline is: Intro → NDA → FDD → Debrief → Corporate → National Trainer → Validation → Close | Updated stage map in README | fixed |
 | J5 | 💡 | Speed-to-first-reply is already immediate | Intro email auto-fires when lead hits Monday board | Sally doesn't need to fix speed; needs to fix conversion (booking rate) | open |
@@ -127,11 +127,11 @@ This is the single source of truth for every issue, decision, gotcha, and TODO s
 
 | # | Decision | Choice | Rationale |
 |---|---|---|---|
-| D1 | Build tier | Option B — Pilot Plus | OAuth on day 1, multi-tenant ready, 2-3 week ship target |
-| D2 | Monday auth | OAuth 2.0 from day 1 | Mandatory for marketplace listing and customer #2 |
-| D3 | Monday change detection | Hybrid webhooks + 5-min polling fallback | Belt and suspenders; webhooks miss events during outages |
+| D1 | Build tier | ~~Option B — Pilot Plus~~ **SUPERSEDED** → Claude Managed Agents (Apr 20 pivot) | OAuth on day 1, multi-tenant ready — replaced by Managed Agents architecture |
+| D2 | Monday auth | ~~OAuth 2.0 from day 1~~ **SUPERSEDED** → Monday MCP server handles auth (Apr 20 pivot) | Managed Agents handles credential management |
+| D3 | Monday change detection | ~~Hybrid webhooks + 5-min polling fallback~~ **SUPERSEDED** → Sally polls via MCP on cron trigger (Apr 20 pivot) | No webhooks needed |
 | D4 | Language | Node.js 20+ + TypeScript | Official SDK is best in Node; matches Next.js frontend |
-| D5 | Integration model | External (separate Sally backend) | Not a Monday-embedded app; standalone SaaS |
+| D5 | Integration model | ~~External (separate Sally backend)~~ **SUPERSEDED** → Claude Managed Agent (Apr 20 pivot) | No separate backend; Anthropic hosts the agent |
 | D6 | Heat scoring | Deferred to v2 | Requires Google CASA verification (4-8 weeks) and isn't the wedge |
 | D7 | Monday plan tier | Assume Standard+ (Jay pilot) | Chris override: verify before customer #2 |
 | D8 | Google Workspace | Assume Business Standard+ | Chris override: not blocking v1 since heat scoring is v2 |
